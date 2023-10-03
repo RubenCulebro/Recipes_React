@@ -14,15 +14,24 @@ useEffect(() => {
         .catch((err) => console.error("Error loading recipes:", err));
 }, []);
 
-    return (
-        <Router>
-            <NavBar />
-            <Routes>
-                <Route path="/" element={<ViewRecipes />} />
-                <Route path="/add_recipe" element={<AddRecipe />} />
-            </Routes>
-        </Router>
-    );
+const removeRecipe = (recipeToRemove) => {
+  const updatedRecipes = recipesCollection.filter(recipe => recipe.id !== recipeToRemove.id);
+  setRecipesCollection(updatedRecipes);
+};
+
+return (
+  <Router>
+    <NavBar />
+    <Routes>
+      <Route
+        exact
+        path="/"
+        element={<ViewRecipes recipes={recipesCollection} onRemoveRecipe={removeRecipe} />}
+      />
+      <Route path="/add_recipe" element={<AddRecipe />} />
+    </Routes>
+  </Router>
+);
 }
 
 export default App;
