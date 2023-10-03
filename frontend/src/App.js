@@ -14,6 +14,10 @@ useEffect(() => {
         .catch((err) => console.error("Error loading recipes:", err));
 }, []);
 
+const addNewRecipe = (newRecipe) => {
+  setRecipesCollection(prevRecipes => [...prevRecipes, newRecipe]);
+};
+
 const removeRecipe = (recipeToRemove) => {
   const updatedRecipes = recipesCollection.filter(recipe => recipe.id !== recipeToRemove.id);
   setRecipesCollection(updatedRecipes);
@@ -28,7 +32,10 @@ return (
         path="/"
         element={<ViewRecipes recipes={recipesCollection} onRemoveRecipe={removeRecipe} />}
       />
-      <Route path="/add_recipe" element={<AddRecipe />} />
+      <Route
+        path="/add_recipe"
+        element={<AddRecipe recipes={recipesCollection} onAddRecipe={addNewRecipe} />}
+      />
     </Routes>
   </Router>
 );
