@@ -1,16 +1,20 @@
 import React from "react";
+import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function NavBar() {
   return (
-    <div>
-      <h1>Recipes Collection</h1>
-      <div>
+    <Navbar bg="light" expand="lg">
+      <Navbar.Brand>Recipes Collection</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="ml-auto">
         <Link to="/">Recipes</Link>
-        <span> | </span>
-        <Link to="/add_recipe">Add Recipe</Link>
-      </div>
-    </div>
+        <span style={{width: "20px"}}></span>
+          <Link to="/add_recipe">Add Recipe</Link>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 }
 
