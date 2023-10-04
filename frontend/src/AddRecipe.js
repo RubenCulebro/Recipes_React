@@ -7,30 +7,14 @@ function AddRecipe(props) {
   const [image, setImage] = useState("");
   const [directions, setDirections] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newRecipe = {
-      id: Date.now(),
-      name: name,
-      description: description,
-      ingredients: ingredients,
-      image: image,
-      directions: directions
-    };
-    props.onAddRecipe(newRecipe);
-    
-
-    setName("");
-    setDescription("");
-    setIngredients("");
-    setImage("");
-    setDirections("");
-  };
-
   return (
     <div className="add-recipe-container">
       <h2>Add Recipe</h2>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <form
+        method="post"
+        action="/api/addRecipe"
+        encType="multipart/form-data"
+      >
         <label htmlFor="name">Name</label>
         <input
           type="text"

@@ -43,6 +43,41 @@ app.get("/api/recipesData", async (req, res) => {
   res.json(recipeData);
 });
 
+app.post("/api/addRecipe", upload.single("image"), async (req, res) => {
+    const client = new MongoClient("mongodb://localhost:27017");
+    await client.connect();
+  
+    const db = client.db("recipes");
+    const recipeData = await db.collection("recipes").insertOne({
+      name: req.body.name,
+      description: req.body.description,
+      ingredients: req.body.ingredients,
+      image: req.file.filename,
+      directions: req.body.directions,
+    });
+    //console.log(recipeData);
+    res.redirect("/");
+  });
+
+app.post("/api/deleteRecipe", async (req, res) => {
+    const client = new MongoClient("mongodb://localhost:27017");
+    await client.connect();
+    const db = client.db("recipes");
+    try {
+      const deleteOperation = await db.collection("recipes").deleteOne({ _id: new ObjectId(req.body._id) });
+      console.log(deleteOperation);
+  
+      if (deleteOperation.deletedCount === 1) {
+        res.json({ success: true, message: "Recipe deleted successfully." });
+      } else {
+        res.json({ success: false, message: "Error deleting recipe." });
+      }
+    } catch (error) {
+      console.error("Error during delete operation:", error);
+      res.json({ success: false, message: "Error deleting recipe." });
+    }
+  });
+
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });

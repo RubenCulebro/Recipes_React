@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ViewRecipes from "./ViewRecipes.js";
 import AddRecipe from "./AddRecipe.js";
@@ -15,31 +16,48 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
 
-const addNewRecipe = (newRecipe) => {
-  setRecipesCollection(prevRecipes => [...prevRecipes, newRecipe]);
-};
+  const removeRecipe = (recipeToRemove) => {
+    fetch(`/api/deleteRecipe`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ _id: recipeToRemove._id })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert(data.message);
+        
+        const updatedRecipes = recipesCollection.filter(recipe => recipe._id !== recipeToRemove._id);
+        setRecipesCollection(updatedRecipes);
+      } else {
+        console.error("Error removing recipe:", data.message);
+        alert(data.message);
+      }
+    })
+    .catch(err => {
+      console.error("Error sending delete request:", err);
+      alert("Error occurred while trying to delete the recipe.");
+    });
+  };
 
-const removeRecipe = (recipeToRemove) => {
-  const updatedRecipes = recipesCollection.filter(recipe => recipe.id !== recipeToRemove.id);
-  setRecipesCollection(updatedRecipes);
-};
-
-return (
-  <Router>
-    <NavBar />
-    <Routes>
-      <Route
-        exact
-        path="/"
-        element={<ViewRecipes recipes={recipesCollection} onRemoveRecipe={removeRecipe} />}
-      />
-      <Route
-        path="/add_recipe"
-        element={<AddRecipe recipes={recipesCollection} onAddRecipe={addNewRecipe} />}
-      />
-    </Routes>
-  </Router>
-);
+  return (
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={<ViewRecipes recipes={recipesCollection} onRemoveRecipe={removeRecipe} />}
+        />
+        <Route
+          path="/add_recipe"
+          element={<AddRecipe recipes={recipesCollection} />}
+        />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

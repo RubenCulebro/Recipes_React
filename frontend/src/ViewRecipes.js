@@ -11,7 +11,7 @@ function ViewRecipes(props) {
     <div className="d-flex">
       <CardGroup>
         {props.recipes.map((recipe) => {
-          const imageUrl = `/images/${recipe.image}`;
+          const imageUrl = `/${recipe.image}`;
           return (
             <Card key={recipe._id} id={recipe._id}>
               <Card.Img
