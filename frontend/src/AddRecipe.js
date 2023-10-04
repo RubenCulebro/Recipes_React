@@ -61,14 +61,12 @@ function AddRecipe(props) {
           required
         />
 
-        <label htmlFor="image">Image Filename</label>
+        <label htmlFor="image">Image URL</label>
         <input
-          type="text"
+          type="file"
           id="image"
           name="image"
-          value={image}
           onChange={(event) => setImage(event.target.value)}
-          placeholder="e.g. image.jpg"
           required
         />
 

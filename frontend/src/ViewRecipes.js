@@ -13,7 +13,7 @@ function ViewRecipes(props) {
         {props.recipes.map((recipe) => {
           const imageUrl = `/images/${recipe.image}`;
           return (
-            <Card key={recipe.id} id={recipe.id}>
+            <Card key={recipe._id} id={recipe._id}>
               <Card.Img
                 variant="top"
                 src={imageUrl}
