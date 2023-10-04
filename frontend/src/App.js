@@ -8,12 +8,12 @@ import "bootstrap/dist/css/bootstrap.css";
 function App() {
   const [recipesCollection, setRecipesCollection] = useState([]);
 
-useEffect(() => {
-    fetch("/recipes.json")
-        .then((res) => res.json())
-        .then((data) => setRecipesCollection(data))
-        .catch((err) => console.error("Error loading recipes:", err));
-}, []);
+  useEffect(() => {
+    fetch("/api/recipesData")
+      .then((res) => res.json())
+      .then(setRecipesCollection)
+      .catch((err) => console.log(err));
+  }, []);
 
 const addNewRecipe = (newRecipe) => {
   setRecipesCollection(prevRecipes => [...prevRecipes, newRecipe]);
