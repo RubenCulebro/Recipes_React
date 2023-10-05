@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "../build")));
+app.use(express.static(path.join(__dirname, "./build")));
 app.use(express.static(path.join(__dirname, "images")));
 
 const storage = multer.diskStorage({
@@ -31,7 +31,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.get(/^(?!\/).+/, (req, res) => {
-  res.sendFile(path.join(__dirname, "../build/index.html"));
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.get("/api/recipesData", async (req, res) => {
